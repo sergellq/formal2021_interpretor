@@ -4,6 +4,8 @@ int n = 10;
 // may be scan(n)
 // scan(a, b, ...); is same as cin >> a >> b >> ...;
 int[10] a;
+// you can use only numbers literal as size of array
+
 
 def qsort(int l, int r, int i, int j) -> void {
   // I have to use i, j in parameters, because of 2nd problems from readme.md
@@ -46,7 +48,6 @@ def bubble_sort(int l, int r) -> void {
   }
 }
 
-// you can use only numbers literal as size of array
 a[0] = 9;
 a[1] = 3;
 a[2] = 4;
@@ -63,3 +64,14 @@ print("before sorting: ", a);
 qsort(0, n-1, 0, 0);
 //bubble_sort(0, n-1);
 print("after sorting:  ", a);
+
+
+string[3] s;
+s[0] = "string";
+s[1] = "works";
+s[2] = "too";
+string res = "";
+for (int i = 0; i < 3; i += 1) {
+  res += s[i] + " ";
+}
+print(res);
