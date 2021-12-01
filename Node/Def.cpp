@@ -16,7 +16,7 @@ Def::Def(const vector<token>& tokens, const vector<int>& link, int start, int l,
   while (L < right_bracket) {
     int R = L;
     while (R < right_bracket && tokens[R].s != ",") ++R;
-    args.emplace_back(Variable(tokens, link, tokens[R-1].type, getTypeByTokens(tokens, L, R-2)));
+    args.emplace_back(std::move(Variable(tokens, link, tokens[R-1].type, getTypeByTokens(tokens, L, R-2))));
     L = R+1;
   }
 }

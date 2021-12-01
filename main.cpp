@@ -96,6 +96,11 @@ int main(int argc, char* argv[]) {
   Node* tree = new Brackets(tokens, link, 0, link[0]);
   vector<vector<Node*>> vars(token_parser.getNumberOfVariables());
   tree->run(vars);
+  for (auto i : vars) {
+    for (auto j : i) {
+      delete j;
+    }
+  }
 
   return 0;
 }

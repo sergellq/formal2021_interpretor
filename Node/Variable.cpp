@@ -15,5 +15,6 @@ std::pair<bool, MyType*> Variable::add(std::vector<std::vector<Node*>>& vars) {
 }
 
 Variable::~Variable() {
-  delete ptr;
+//  I need shared_ptr to delete here.
+//  delete ptr;
 }

@@ -148,7 +148,7 @@ std::pair<bool, MyType*> Expression::run(vector<std::vector<Node*>>& vars) {
     if (!left) {
       return {false, -*right->run(vars).second};
     } else {
-      return {false, *left->run(vars).second >= right->run(vars).second};
+      return {false, *left->run(vars).second - right->run(vars).second};
     }
   } else if (tokens[mid].s == "!") {
     if (left) {
