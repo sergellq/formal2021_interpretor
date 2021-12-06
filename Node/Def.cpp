@@ -21,7 +21,7 @@ Def::Def(const vector<token>& tokens, const vector<int>& link, int start, int l,
   }
 }
 
-std::pair<bool, MyType*> Def::run(vector<std::vector<Node*>>& vars) {
+std::pair<bool, std::shared_ptr<MyType>> Def::run(vector<vector<std::shared_ptr<Node>>>& vars) {
   auto ret = body.run(vars);
   ret.first = false;
   if (ret.second->id != ret_type->id) {
@@ -30,11 +30,7 @@ std::pair<bool, MyType*> Def::run(vector<std::vector<Node*>>& vars) {
   return ret;
 }
 
-std::pair<bool, MyType*> Def::add(vector<std::vector<Node*>>& vars) {
-  vars[name].emplace_back(this);
-  return {false, new MyNullType()};
-}
-
-Def::~Def() {
-  delete ret_type;
+std::pair<bool, std::shared_ptr<MyType>> Def::add(vector<vector<std::shared_ptr<Node>>>& vars) {
+  vars[name].emplace_back(shared_from_this());
+  return {false, std::make_shared<MyNullType>()};
 }

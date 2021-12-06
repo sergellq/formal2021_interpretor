@@ -18,16 +18,16 @@ While::While(const vector<token>& tokens, const vector<int>& link, int start, in
   }
 }
 
-std::pair<bool, MyType*> While::run(vector<std::vector<Node*>>& vars) {
-  while (dynamic_cast<MyInt*>(logic.run(vars).second)->value) {
+std::pair<bool, std::shared_ptr<MyType>> While::run(vector<vector<std::shared_ptr<Node>>>& vars) {
+  while (std::dynamic_pointer_cast<MyInt>(logic.run(vars).second)->value) {
     auto ret = body.run(vars);
     if (ret.first) {
       return ret;
     }
   }
-  return {false, new MyNullType()};
+  return {false, std::make_shared<MyNullType>()};
 }
 
-std::pair<bool, MyType*> While::add(vector<std::vector<Node*>>& vars) {
+std::pair<bool, std::shared_ptr<MyType>> While::add(vector<vector<std::shared_ptr<Node>>>& vars) {
   return run(vars);
 }

@@ -12,26 +12,26 @@ const int MyType::null_id = 0;
 const int MyType::int_id = 1;
 const int MyType::string_id = 2;
 
-std::istream& operator>>(std::istream& is, MyType* ptr) {
+std::istream& operator>>(std::istream& is, std::shared_ptr<MyType> ptr) {
   ptr->scan(is);
   return is;
 }
-std::ostream& operator<<(std::ostream& os, const MyType* ptr) {
+std::ostream& operator<<(std::ostream& os, std::shared_ptr<MyType> ptr) {
   ptr->print(os);
   return os;
 }
 
-MyType* getTypeByTokens(const vector<token>& tokens, int l, int r) {
+std::shared_ptr<MyType> getTypeByTokens(const vector<token>& tokens, int l, int r) {
   if (!TokenAutomaton::isType(tokens[l].type)) {
     throw std::logic_error("type expected");
   }
   if (l == r) {
     if (tokens[l].s == "int") {
-      return new MyInt();
+      return std::make_shared<MyInt>();
     } else if (tokens[l].s == "string") {
-      return new MyString();
+      return std::make_shared<MyString>();
     } else if (tokens[l].s == "void") {
-      return new MyNullType();
+      return std::make_shared<MyNullType>();
     }
   } else {
     if (tokens[l+1].s != "[" || tokens[l+3].s != "]") {
@@ -41,9 +41,9 @@ MyType* getTypeByTokens(const vector<token>& tokens, int l, int r) {
       throw std::logic_error("expected number literal");
     }
     if (tokens[l].s == "int") {
-      return new MyArray<MyInt>(atoi(tokens[l+2].s.c_str()));
+      return std::make_shared<MyArray<MyInt>>(atoi(tokens[l+2].s.c_str()));
     } else if (tokens[l].s == "string") {
-      return new MyArray<MyString>(atoi(tokens[l+2].s.c_str()));
+      return std::make_shared<MyArray<MyString>>(atoi(tokens[l+2].s.c_str()));
     } else {
       throw std::logic_error("i should add new types here!");
     }

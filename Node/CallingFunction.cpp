@@ -19,38 +19,38 @@ CallingFunction::CallingFunction(const vector<token>& tokens, const vector<int>&
   }
 }
 
-std::pair<bool, MyType*> CallingFunction::run(vector<std::vector<Node*>>& vars) {
+std::pair<bool, std::shared_ptr<MyType>> CallingFunction::run(vector<vector<std::shared_ptr<Node>>>& vars) {
   if (TokenAutomaton::isReturn(name)) {
     if (next.size() > 1) {
       throw std::logic_error("you should return not more that one argument");
     }
     if (next.empty()) {
-      return {true, new MyNullType()};
+      return {true, std::make_shared<MyNullType>()};
     } else {
       return {true, next[0]->run(vars).second};
     }
   } else if (TokenAutomaton::isPrint(name)) {
-    for (auto i : next) {
+    for (auto& i : next) {
       std::cout << i->run(vars).second << " ";
     }
     std::cout << std::endl;
-    return {false, new MyNullType()};
+    return {false, std::make_shared<MyNullType>()};
   } else if (TokenAutomaton::isScan(name)) {
-    for (auto i : next) {
+    for (auto& i : next) {
       std::cin >> i->run(vars).second;
     }
-    return {false, new MyNullType()};
+    return {false, std::make_shared<MyNullType>()};
   }
 
   if (vars[name].empty()) {
     throw std::logic_error("undefined name of function");
   }
-  Def* def = dynamic_cast<Def*>(vars[name].back());
+  std::shared_ptr<Def> def = std::dynamic_pointer_cast<Def>(vars[name].back());
   if (!def) {
     throw std::logic_error("calling function call not function");
   }
-  vector<MyType*> values;
-  for (auto expr : next) {
+  vector<std::shared_ptr<MyType>> values;
+  for (auto& expr : next) {
     values.emplace_back(expr->run(vars).second);
   }
   if (values.size() != def->args.size()) {
@@ -60,7 +60,7 @@ std::pair<bool, MyType*> CallingFunction::run(vector<std::vector<Node*>>& vars) 
     if (values[i]->id != (def->args[i].ptr)->id) {
       throw std::logic_error(std::to_string(i) + "-th variable has bad type");
     }
-    vars[def->args[i].name].emplace_back(new Variable(tokens, link, def->args[i].name, values[i]));
+    vars[def->args[i].name].emplace_back(std::make_shared<Variable>(tokens, link, def->args[i].name, values[i]));
   }
   auto ret = def->run(vars);
   for (size_t i = 0; i < values.size(); ++i) {
@@ -69,13 +69,7 @@ std::pair<bool, MyType*> CallingFunction::run(vector<std::vector<Node*>>& vars) 
   return ret;
 }
 
-std::pair<bool, MyType*> CallingFunction::add(vector<std::vector<Node*>>& vars) {
+std::pair<bool, std::shared_ptr<MyType>> CallingFunction::add(vector<vector<std::shared_ptr<Node>>>& vars) {
   run(vars);
-  return {false, new MyNullType()};
-}
-
-CallingFunction::~CallingFunction() {
-  for (auto i : next) {
-    delete i;
-  }
+  return {false, std::make_shared<MyNullType>()};
 }

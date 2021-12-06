@@ -5,8 +5,8 @@
 
 class Expression : public Node {
  private:
-  Node* left = nullptr;
-  Node* right = nullptr;
+  std::shared_ptr<Node> left = nullptr;
+  std::shared_ptr<Node> right = nullptr;
   int mid;
 
   static const int return_from_array;
@@ -16,8 +16,8 @@ class Expression : public Node {
  public:
   Expression(const std::vector<token>& tokens, const std::vector<int>& link, int l, int r);
 
-  std::pair<bool, MyType*> run(std::vector<std::vector<Node*>>& vars) override;
-  std::pair<bool, MyType*> add(std::vector<std::vector<Node*>>& vars) override;
+  std::pair<bool, std::shared_ptr<MyType>> run(std::vector<std::vector<std::shared_ptr<Node>>>& vars) override;
+  std::pair<bool, std::shared_ptr<MyType>> add(std::vector<std::vector<std::shared_ptr<Node>>>& vars) override;
 
-  ~Expression() override;
+  ~Expression() override = default;
 };

@@ -3,110 +3,110 @@
 
 MyInt::MyInt(int value): MyType(MyType::int_id, -1), value(value) {}
 
-MyType* MyInt::operator=(MyType* other) {
-  value = dynamic_cast<MyInt*>(other)->value;
-  return this;
+std::shared_ptr<MyType> MyInt::operator=(std::shared_ptr<MyType> other) {
+  value = std::dynamic_pointer_cast<MyInt>(other)->value;
+  return shared_from_this();
 }
 
-MyType* MyInt::operator+=(MyType* other) {
-  value += dynamic_cast<MyInt*>(other)->value;
-  return this;
+std::shared_ptr<MyType> MyInt::operator+=(std::shared_ptr<MyType> other) {
+  value += std::dynamic_pointer_cast<MyInt>(other)->value;
+  return shared_from_this();
 }
 
-MyType* MyInt::operator-=(MyType* other) {
-  value -= dynamic_cast<MyInt*>(other)->value;
-  return this;
+std::shared_ptr<MyType> MyInt::operator-=(std::shared_ptr<MyType> other) {
+  value -= std::dynamic_pointer_cast<MyInt>(other)->value;
+  return shared_from_this();
 }
 
-MyType* MyInt::operator*=(MyType* other) {
-  value *= dynamic_cast<MyInt*>(other)->value;
-  return this;
+std::shared_ptr<MyType> MyInt::operator*=(std::shared_ptr<MyType> other) {
+  value *= std::dynamic_pointer_cast<MyInt>(other)->value;
+  return shared_from_this();
 }
 
-MyType* MyInt::operator/=(MyType* other) {
-  value /= dynamic_cast<MyInt*>(other)->value;
-  return this;
+std::shared_ptr<MyType> MyInt::operator/=(std::shared_ptr<MyType> other) {
+  value /= std::dynamic_pointer_cast<MyInt>(other)->value;
+  return shared_from_this();
 }
 
-MyType* MyInt::operator%=(MyType* other) {
-  value %= dynamic_cast<MyInt*>(other)->value;
-  return this;
+std::shared_ptr<MyType> MyInt::operator%=(std::shared_ptr<MyType> other) {
+  value %= std::dynamic_pointer_cast<MyInt>(other)->value;
+  return shared_from_this();
 }
 
-MyType* MyInt::operator|(MyType* other) {
-  MyInt* ptr = new MyInt(*this);
-  ptr->value |= dynamic_cast<MyInt*>(other)->value;
+std::shared_ptr<MyType> MyInt::operator|(std::shared_ptr<MyType> other) {
+  std::shared_ptr<MyInt> ptr = shared_from_this();
+  ptr->value |= std::dynamic_pointer_cast<MyInt>(other)->value;
   return ptr;
 }
 
-MyType* MyInt::operator&(MyType* other) {
-  MyInt* ptr = new MyInt(*this);
-  ptr->value &= dynamic_cast<MyInt*>(other)->value;
+std::shared_ptr<MyType> MyInt::operator&(std::shared_ptr<MyType> other) {
+  std::shared_ptr<MyInt> ptr = shared_from_this();
+  ptr->value &= std::dynamic_pointer_cast<MyInt>(other)->value;
   return ptr;
 }
 
-MyInt* MyInt::operator==(MyType* other) {
-  return new MyInt(value == dynamic_cast<MyInt*>(other)->value);
+std::shared_ptr<MyInt> MyInt::operator==(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value == std::dynamic_pointer_cast<MyInt>(other)->value);
 }
 
-MyInt* MyInt::operator!=(MyType* other) {
-  return new MyInt(value != dynamic_cast<MyInt*>(other)->value);
+std::shared_ptr<MyInt> MyInt::operator!=(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value != std::dynamic_pointer_cast<MyInt>(other)->value);
 }
 
-MyInt* MyInt::operator<(MyType* other) {
-  return new MyInt(value < dynamic_cast<MyInt*>(other)->value);
+std::shared_ptr<MyInt> MyInt::operator<(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value < std::dynamic_pointer_cast<MyInt>(other)->value);
 }
 
-MyInt* MyInt::operator>(MyType* other) {
-  return new MyInt(value > dynamic_cast<MyInt*>(other)->value);
+std::shared_ptr<MyInt> MyInt::operator>(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value > std::dynamic_pointer_cast<MyInt>(other)->value);
 }
 
-MyInt* MyInt::operator<=(MyType* other) {
-  return new MyInt(value <= dynamic_cast<MyInt*>(other)->value);
+std::shared_ptr<MyInt> MyInt::operator<=(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value <= std::dynamic_pointer_cast<MyInt>(other)->value);
 }
 
-MyInt* MyInt::operator>=(MyType* other) {
-  return new MyInt(value >= dynamic_cast<MyInt*>(other)->value);
+std::shared_ptr<MyInt> MyInt::operator>=(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value >= std::dynamic_pointer_cast<MyInt>(other)->value);
 }
 
-MyType* MyInt::operator+(MyType* other) {
-  MyInt* ptr = new MyInt(*this);
-  ptr->value += dynamic_cast<MyInt*>(other)->value;
+std::shared_ptr<MyType> MyInt::operator+(std::shared_ptr<MyType> other) {
+  std::shared_ptr<MyInt> ptr = shared_from_this();
+  ptr->value += std::dynamic_pointer_cast<MyInt>(other)->value;
   return ptr;
 }
 
-MyType* MyInt::operator-(MyType* other) {
-  MyInt* ptr = new MyInt(*this);
-  ptr->value -= dynamic_cast<MyInt*>(other)->value;
+std::shared_ptr<MyType> MyInt::operator-(std::shared_ptr<MyType> other) {
+  std::shared_ptr<MyInt> ptr = shared_from_this();
+  ptr->value -= std::dynamic_pointer_cast<MyInt>(other)->value;
   return ptr;
 }
 
-MyType* MyInt::operator*(MyType* other) {
-  MyInt* ptr = new MyInt(*this);
-  ptr->value *= dynamic_cast<MyInt*>(other)->value;
+std::shared_ptr<MyType> MyInt::operator*(std::shared_ptr<MyType> other) {
+  std::shared_ptr<MyInt> ptr = shared_from_this();
+  ptr->value *= std::dynamic_pointer_cast<MyInt>(other)->value;
   return ptr;
 }
 
-MyType* MyInt::operator/(MyType* other) {
-  MyInt* ptr = new MyInt(*this);
-  ptr->value /= dynamic_cast<MyInt*>(other)->value;
+std::shared_ptr<MyType> MyInt::operator/(std::shared_ptr<MyType> other) {
+  std::shared_ptr<MyInt> ptr = shared_from_this();
+  ptr->value /= std::dynamic_pointer_cast<MyInt>(other)->value;
   return ptr;
 }
 
-MyType* MyInt::operator%(MyType* other) {
-  MyInt* ptr = new MyInt(*this);
-  ptr->value %= dynamic_cast<MyInt*>(other)->value;
+std::shared_ptr<MyType> MyInt::operator%(std::shared_ptr<MyType> other) {
+  std::shared_ptr<MyInt> ptr = shared_from_this();
+  ptr->value %= std::dynamic_pointer_cast<MyInt>(other)->value;
   return ptr;
 }
 
-MyType* MyInt::operator!() {
-  MyInt* ptr = new MyInt(*this);
+std::shared_ptr<MyType> MyInt::operator!() {
+  std::shared_ptr<MyInt> ptr = shared_from_this();
   ptr->value = !ptr->value;
   return ptr;
 }
 
-MyType* MyInt::operator-() {
-  MyInt* ptr = new MyInt(*this);
+std::shared_ptr<MyType> MyInt::operator-() {
+  std::shared_ptr<MyInt> ptr = shared_from_this();
   ptr->value = -ptr->value;
   return ptr;
 }

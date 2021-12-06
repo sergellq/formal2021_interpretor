@@ -93,14 +93,9 @@ int main(int argc, char* argv[]) {
   vector<int> link(tokens.size(), -1);
   create_links_to_opposite_bracket(tokens, link);
 
-  Node* tree = new Brackets(tokens, link, 0, link[0]);
-  vector<vector<Node*>> vars(token_parser.getNumberOfVariables());
+  std::shared_ptr<Node> tree = std::make_shared<Brackets>(tokens, link, 0, link[0]);
+  vector<vector<std::shared_ptr<Node>>> vars(token_parser.getNumberOfVariables());
   tree->run(vars);
-  for (auto i : vars) {
-    for (auto j : i) {
-      delete j;
-    }
-  }
 
   return 0;
 }

@@ -5,91 +5,91 @@
 
 MyString::MyString(std::string s): MyType(MyType::string_id, -1), value(std::move(s)) {}
 
-MyType* MyString::operator=(MyType* other) {
-  value = dynamic_cast<MyString*>(other)->value;
-  return this;
+std::shared_ptr<MyType> MyString::operator=(std::shared_ptr<MyType> other) {
+  value = std::dynamic_pointer_cast<MyString>(other)->value;
+  return shared_from_this();
 }
 
-MyType* MyString::operator+=(MyType* other) {
-  value += dynamic_cast<MyString*>(other)->value;
-  return this;
+std::shared_ptr<MyType> MyString::operator+=(std::shared_ptr<MyType> other) {
+  value += std::dynamic_pointer_cast<MyString>(other)->value;
+  return shared_from_this();
 }
 
-MyType* MyString::operator-=(MyType* other) {
+std::shared_ptr<MyType> MyString::operator-=(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator -=");
 }
 
-MyType* MyString::operator*=(MyType* other) {
+std::shared_ptr<MyType> MyString::operator*=(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator *=");
 }
 
-MyType* MyString::operator/=(MyType* other) {
+std::shared_ptr<MyType> MyString::operator/=(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator /=");
 }
 
-MyType* MyString::operator%=(MyType* other) {
+std::shared_ptr<MyType> MyString::operator%=(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator %=");
 }
 
-MyType* MyString::operator|(MyType* other) {
+std::shared_ptr<MyType> MyString::operator|(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator |");
 }
 
-MyType* MyString::operator&(MyType* other) {
+std::shared_ptr<MyType> MyString::operator&(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator &");
 }
 
-MyInt* MyString::operator==(MyType* other) {
-  return new MyInt(value == dynamic_cast<MyString*>(other)->value);
+std::shared_ptr<MyInt> MyString::operator==(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value == std::dynamic_pointer_cast<MyString>(other)->value);
 }
 
-MyInt* MyString::operator!=(MyType* other) {
-  return new MyInt(value != dynamic_cast<MyString*>(other)->value);
+std::shared_ptr<MyInt> MyString::operator!=(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value != std::dynamic_pointer_cast<MyString>(other)->value);
 }
 
-MyInt* MyString::operator<(MyType* other) {
-  return new MyInt(value < dynamic_cast<MyString*>(other)->value);
+std::shared_ptr<MyInt> MyString::operator<(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value < std::dynamic_pointer_cast<MyString>(other)->value);
 }
 
-MyInt* MyString::operator>(MyType* other) {
-  return new MyInt(value > dynamic_cast<MyString*>(other)->value);
+std::shared_ptr<MyInt> MyString::operator>(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value > std::dynamic_pointer_cast<MyString>(other)->value);
 }
 
-MyInt* MyString::operator<=(MyType* other) {
-  return new MyInt(value <= dynamic_cast<MyString*>(other)->value);
+std::shared_ptr<MyInt> MyString::operator<=(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value <= std::dynamic_pointer_cast<MyString>(other)->value);
 }
 
-MyInt* MyString::operator>=(MyType* other) {
-  return new MyInt(value >= dynamic_cast<MyString*>(other)->value);
+std::shared_ptr<MyInt> MyString::operator>=(std::shared_ptr<MyType> other) {
+  return std::make_shared<MyInt>(value >= std::dynamic_pointer_cast<MyString>(other)->value);
 }
 
-MyType* MyString::operator+(MyType* other) {
-  MyString* ptr = new MyString(*this);
-  ptr->value += dynamic_cast<MyString*>(other)->value;
+std::shared_ptr<MyType> MyString::operator+(std::shared_ptr<MyType> other) {
+  std::shared_ptr<MyString> ptr = shared_from_this();
+  ptr->value += std::dynamic_pointer_cast<MyString>(other)->value;
   return ptr;
 }
 
-MyType* MyString::operator-(MyType* other) {
+std::shared_ptr<MyType> MyString::operator-(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator -");
 }
 
-MyType* MyString::operator*(MyType* other) {
+std::shared_ptr<MyType> MyString::operator*(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator *");
 }
 
-MyType* MyString::operator/(MyType* other) {
+std::shared_ptr<MyType> MyString::operator/(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator /");
 }
 
-MyType* MyString::operator%(MyType* other) {
+std::shared_ptr<MyType> MyString::operator%(std::shared_ptr<MyType> other) {
   throw std::logic_error("string has no operator %");
 }
 
-MyType* MyString::operator!() {
+std::shared_ptr<MyType> MyString::operator!() {
   throw std::logic_error("string has no operator !");
 }
 
-MyType* MyString::operator-() {
+std::shared_ptr<MyType> MyString::operator-() {
   throw std::logic_error("string has no operator -");
 }
 

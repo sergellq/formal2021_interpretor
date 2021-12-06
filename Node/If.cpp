@@ -18,8 +18,8 @@ If::If(const vector<token>& tokens, const vector<int>& link, int start, int l, i
   }
 }
 
-std::pair<bool, MyType*> If::run(vector<std::vector<Node*>>& vars) {
-  if (dynamic_cast<MyInt*>(logic.run(vars).second)->value) {
+std::pair<bool, std::shared_ptr<MyType>> If::run(vector<vector<std::shared_ptr<Node>>>& vars) {
+  if (std::dynamic_pointer_cast<MyInt>(logic.run(vars).second)->value) {
     auto ret = true_logic.run(vars);
     if (ret.first) {
       return ret;
@@ -30,9 +30,9 @@ std::pair<bool, MyType*> If::run(vector<std::vector<Node*>>& vars) {
       return ret;
     }
   }
-  return {false, new MyNullType()};
+  return {false, std::make_shared<MyNullType>()};
 }
 
-std::pair<bool, MyType*> If::add(vector<std::vector<Node*>>& vars) {
+std::pair<bool, std::shared_ptr<MyType>> If::add(vector<vector<std::shared_ptr<Node>>>& vars) {
   return run(vars);
 }

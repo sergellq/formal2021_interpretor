@@ -5,9 +5,9 @@
 #include "Variable.h"
 #include "Brackets.h"
 
-class Def : public Node {
+class Def : public Node, public std::enable_shared_from_this<Def> {
  private:
-  MyType* ret_type;
+  std::shared_ptr<MyType> ret_type;
   int name;
   Brackets body;
 
@@ -16,8 +16,8 @@ class Def : public Node {
 
   Def(const std::vector<token>& tokens, const std::vector<int>& link, int start, int l, int r);
 
-  std::pair<bool, MyType*> run(std::vector<std::vector<Node*>>& vars) override;
-  std::pair<bool, MyType*> add(std::vector<std::vector<Node*>>& vars) override;
+  std::pair<bool, std::shared_ptr<MyType>> run(std::vector<std::vector<std::shared_ptr<Node>>>& vars) override;
+  std::pair<bool, std::shared_ptr<MyType>> add(std::vector<std::vector<std::shared_ptr<Node>>>& vars) override;
 
-  ~Def() override;
+  ~Def() override = default;
 };

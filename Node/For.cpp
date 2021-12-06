@@ -30,12 +30,12 @@ For::For(const vector<token>& tokens, const vector<int>& link, int start, int l,
   }
 }
 
-std::pair<bool, MyType*> For::run(vector<std::vector<Node*>>& vars) {
+std::pair<bool, std::shared_ptr<MyType>> For::run(vector<vector<std::shared_ptr<Node>>>& vars) {
   auto ret = init.run(vars);
   if (ret.first) {
     return ret;
   }
-  while (dynamic_cast<MyInt*>(logic.run(vars).second)->value) {
+  while (std::dynamic_pointer_cast<MyInt>(logic.run(vars).second)->value) {
     ret = body.run(vars);
     if (ret.first) {
       return ret;
@@ -46,9 +46,9 @@ std::pair<bool, MyType*> For::run(vector<std::vector<Node*>>& vars) {
     }
   }
   /// TODO smth with deleting args from init
-  return {false, new MyNullType()};
+  return {false, std::make_shared<MyNullType>()};
 }
 
-std::pair<bool, MyType*> For::add(vector<std::vector<Node*>>& vars) {
+std::pair<bool, std::shared_ptr<MyType>> For::add(vector<vector<std::shared_ptr<Node>>>& vars) {
   return run(vars);
 }

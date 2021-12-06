@@ -5,110 +5,110 @@
 #include <iostream>
 
 template<typename T>
-struct MyArray: public MyType {
-  std::vector<T*> value;
+struct MyArray: public MyType, std::enable_shared_from_this<MyArray<T>> {
+  std::vector<std::shared_ptr<T>> value;
 
   explicit MyArray(int size);
   ~MyArray() override = default;
 
-  T* get(int x) {
+  std::shared_ptr<T> get(int x) {
     return value[x];
   }
 
-  MyType* operator=(MyType* other) {
+  std::shared_ptr<MyType> operator=(std::shared_ptr<MyType> other) {
     for (int i = 0; i < value.size(); ++i) {
-      *value[i] = dynamic_cast<MyArray<T>*>(other)->value[i];
+      *value[i] = std::dynamic_pointer_cast<MyArray<T>>(other)->value[i];
     }
-    return this;
+    return std::enable_shared_from_this<MyArray<T>>::shared_from_this();
   }
 
-  MyType* operator+=(MyType* other) {
+  std::shared_ptr<MyType> operator+=(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator +=");
   }
 
-  MyType* operator-=(MyType* other) {
+  std::shared_ptr<MyType> operator-=(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator -=");
   }
 
-  MyType* operator*=(MyType* other) {
+  std::shared_ptr<MyType> operator*=(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator *=");
   }
 
-  MyType* operator/=(MyType* other) {
+  std::shared_ptr<MyType> operator/=(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator /=");
   }
 
-  MyType* operator%=(MyType* other) {
+  std::shared_ptr<MyType> operator%=(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator %=");
   }
 
-  MyType* operator|(MyType* other) {
+  std::shared_ptr<MyType> operator|(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator |");
   }
 
-  MyType* operator&(MyType* other) {
+  std::shared_ptr<MyType> operator&(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator &");
   }
 
-  MyInt* operator==(MyType* other) {
+  std::shared_ptr<MyInt> operator==(std::shared_ptr<MyType> other) {
     for (int i = 0; i < value.size(); ++i) {
-      if ((*value[i] != dynamic_cast<MyArray<T>*>(other)->value[i])->value) {
-        return new MyInt(0);
+      if ((*value[i] != std::dynamic_pointer_cast<MyArray<T>>(other)->value[i])->value) {
+        return std::make_shared<MyInt>(0);
       }
     }
-    return new MyInt(1);
+    return std::make_shared<MyInt>(1);
   }
 
-  MyInt* operator!=(MyType* other) {
+  std::shared_ptr<MyInt> operator!=(std::shared_ptr<MyType> other) {
     for (int i = 0; i < value.size(); ++i) {
-      if ((*value[i] != dynamic_cast<MyArray<T>*>(other)->value[i])->value) {
-        return new MyInt(0);
+      if ((*value[i] != std::dynamic_pointer_cast<MyArray<T>>(other)->value[i])->value) {
+        return std::make_shared<MyInt>(0);
       }
     }
-    return new MyInt(1);
+    return std::make_shared<MyInt>(1);
   }
 
-  MyInt* operator<(MyType* other) {
-    return new MyInt(value < dynamic_cast<MyArray<T>*>(other)->value);
+  std::shared_ptr<MyInt> operator<(std::shared_ptr<MyType> other) {
+    return std::make_shared<MyInt>(value < std::dynamic_pointer_cast<MyArray<T>>(other)->value);
   }
 
-  MyInt* operator>(MyType* other) {
-    return new MyInt(value > dynamic_cast<MyArray<T>*>(other)->value);
+  std::shared_ptr<MyInt> operator>(std::shared_ptr<MyType> other) {
+    return std::make_shared<MyInt>(value > std::dynamic_pointer_cast<MyArray<T>>(other)->value);
   }
 
-  MyInt* operator<=(MyType* other) {
-    return new MyInt(value <= dynamic_cast<MyArray<T>*>(other)->value);
+  std::shared_ptr<MyInt> operator<=(std::shared_ptr<MyType> other) {
+    return std::make_shared<MyInt>(value <= std::dynamic_pointer_cast<MyArray<T>>(other)->value);
   }
 
-  MyInt* operator>=(MyType* other) {
-    return new MyInt(value >= dynamic_cast<MyArray<T>*>(other)->value);
+  std::shared_ptr<MyInt> operator>=(std::shared_ptr<MyType> other) {
+    return std::make_shared<MyInt>(value >= std::dynamic_pointer_cast<MyArray<T>>(other)->value);
   }
 
-  MyType* operator+(MyType* other) {
+  std::shared_ptr<MyType> operator+(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator +");
   }
 
-  MyType* operator-(MyType* other) {
+  std::shared_ptr<MyType> operator-(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator -");
   }
 
-  MyType* operator*(MyType* other) {
+  std::shared_ptr<MyType> operator*(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator *");
   }
 
-  MyType* operator/(MyType* other) {
+  std::shared_ptr<MyType> operator/(std::shared_ptr<MyType> other) {
     throw std::logic_error("array has no operator /");
   }
 
-  MyType* operator%(MyType* other) override {
+  std::shared_ptr<MyType> operator%(std::shared_ptr<MyType> other) override {
     throw std::logic_error("array has no operator %");
   }
 
-  MyType* operator!() override {
+  std::shared_ptr<MyType> operator!() override {
     throw std::logic_error("array has no operator !");
   }
 
-  MyType* operator-() override {
+  std::shared_ptr<MyType> operator-() override {
     throw std::logic_error("array has no operator -");
   }
 
@@ -131,6 +131,6 @@ template<typename T>
 MyArray<T>::MyArray(int size): MyType(std::make_pair(T().id.first, size)), value(size) {
   static_assert(std::is_base_of_v<MyType, T>);
   for (auto& i : value) {
-    i = new T();
+    i = std::make_shared<T>();
   }
 }

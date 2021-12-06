@@ -21,26 +21,26 @@ Brackets::Brackets(const vector<token>& tokens, const vector<int>& link, int l, 
       } else if (tokens[L].s == "while" || tokens[L].s == "for") {
         R = jump(link, R, 1, 1);
         if (tokens[L].s == "while") {
-          next.push_back(new While(tokens, link, L, link[R], R));
+          next.push_back(std::make_shared<While>(tokens, link, L, link[R], R));
         } else {
-          next.emplace_back(new For(tokens, link, L, link[R], R));
+          next.emplace_back(std::make_shared<For>(tokens, link, L, link[R], R));
         }
       } else if (tokens[L].s == "if") {
         R = jump(link, R, 1, 1);
         if (tokens[R + 1].s == "else") {
           int W = jump(link, R, 2);
-          next.emplace_back(new If(tokens, link, L, link[R], R, link[W], W));
+          next.emplace_back(std::make_shared<If>(tokens, link, L, link[R], R, link[W], W));
         } else {
-          next.emplace_back(new If(tokens, link, L, link[R], R));
+          next.emplace_back(std::make_shared<If>(tokens, link, L, link[R], R));
         }
       } else if (tokens[L].s == "{") {
         R = link[R];
-        next.emplace_back(new Brackets(tokens, link, L, R));
+        next.emplace_back(std::make_shared<Brackets>(tokens, link, L, R));
       } else {
         while (tokens[R].s != ";") {
           ++R;
         }
-        next.emplace_back(new Expression(tokens, link, L, R));
+        next.emplace_back(std::make_shared<Expression>(tokens, link, L, R));
         L = R + 1;
         continue;
       }
@@ -53,23 +53,17 @@ Brackets::Brackets(const vector<token>& tokens, const vector<int>& link, int l, 
   }
 }
 
-std::pair<bool, MyType*> Brackets::run(vector<std::vector<Node*>>& vars) {
-  if (empty()) return {false, new MyNullType()};
+std::pair<bool, std::shared_ptr<MyType>> Brackets::run(vector<vector<std::shared_ptr<Node>>>& vars) {
+  if (empty()) return {false, std::make_shared<MyNullType>()};
   for (auto i : next) {
     auto ret = i->add(vars);
     if (ret.first) {
       return ret;
     }
   }
-  return {false, new MyNullType()};
+  return {false, std::make_shared<MyNullType>()};
 }
 
-std::pair<bool, MyType*> Brackets::add(vector<std::vector<Node*>>& vars) {
+std::pair<bool, std::shared_ptr<MyType>> Brackets::add(vector<vector<std::shared_ptr<Node>>>& vars) {
   return run(vars);
-}
-
-Brackets::~Brackets() {
-  for (auto i : next) {
-    delete i;
-  }
 }

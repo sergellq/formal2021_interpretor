@@ -48,8 +48,8 @@ Expression::Expression(const vector<token>& tokens, const vector<int>& link, int
     } else {
       mid = L;
     }
-    if (l <= mid - 1) left = new Expression(tokens, link, l, mid - 1);
-    if (mid + 1 <= r) right = new Expression(tokens, link, mid + 1, r);
+    if (l <= mid - 1) left = std::make_shared<Expression>(tokens, link, l, mid - 1);
+    if (mid + 1 <= r) right = std::make_shared<Expression>(tokens, link, mid + 1, r);
   } else {
     if (l == r) {
       if (TokenAutomaton::isNumberLiteral(tokens[l].type)) return;
@@ -60,48 +60,48 @@ Expression::Expression(const vector<token>& tokens, const vector<int>& link, int
       if (tokens[r].s == ")") {
         /// function calling
         mid = calling_function;
-        right = new CallingFunction(tokens, link, l, r);
+        right = std::make_shared<CallingFunction>(tokens, link, l, r);
       } else if (tokens[r].s == "]") {
         /// return from array
         if (tokens[l+1].s != "[") {
           throw std::logic_error("expected [] after array, found " + tokens[l+1].s + tokens[r].s);
         }
         mid = return_from_array;
-        right = new Expression(tokens, link, l+2, r-1);
+        right = std::make_shared<Expression>(tokens, link, l+2, r-1);
       } else {
         /// creating new variable
         mid = new_variable;
-        delete getTypeByTokens(tokens, l, r-1);
+        getTypeByTokens(tokens, l, r-1); // for checking, that [l, r-1] is a type
       }
     }
   }
 }
 
-std::pair<bool, MyType*> Expression::run(vector<std::vector<Node*>>& vars) {
-  if (empty() || r < l) return {false, new MyNullType()};
+std::pair<bool, std::shared_ptr<MyType>> Expression::run(vector<vector<std::shared_ptr<Node>>>& vars) {
+  if (empty() || r < l) return {false, std::make_shared<MyNullType>()};
   if (l == r) {
     if (TokenAutomaton::isNumberLiteral(tokens[l].type)) {
-      return {false, new MyInt(atoi(tokens[l].s.c_str()))};
+      return {false, std::make_shared<MyInt>(atoi(tokens[l].s.c_str()))};
     } else if (TokenAutomaton::isStringLiteral(tokens[l].type)) {
-      return {false, new MyString(tokens[l].s.substr(1, tokens[l].s.size()-2))};
+      return {false, std::make_shared<MyString>(tokens[l].s.substr(1, tokens[l].s.size()-2))};
     } else if (TokenAutomaton::isVariable(tokens[l].type)) {
-      return {false, dynamic_cast<Variable*>(vars[tokens[l].type].back())->ptr};
+      return {false, std::dynamic_pointer_cast<Variable>(vars[tokens[l].type].back())->ptr};
     }
   }
 
   if (mid == calling_function) {
     return right->run(vars);
   } else if (mid == return_from_array) {
-    MyType* ptr = dynamic_cast<Variable*>(vars[tokens[l].type].back())->ptr;
+    std::shared_ptr<MyType> ptr = std::dynamic_pointer_cast<Variable>(vars[tokens[l].type].back())->ptr;
     if (ptr->id.first == MyType::int_id) {
       return {false,
-              dynamic_cast<MyArray<MyInt>*>(ptr)->get(dynamic_cast<MyInt*>(right->run(vars).second)->value)};
+              std::dynamic_pointer_cast<MyArray<MyInt>>(ptr)->get(std::dynamic_pointer_cast<MyInt>(right->run(vars).second)->value)};
     } else if (ptr->id.first == MyType::string_id) {
-      return {false,
-              dynamic_cast<MyArray<MyString>*>(ptr)->get(dynamic_cast<MyInt*>(right->run(vars).second)->value)};
+      return std::make_pair(false,
+              std::dynamic_pointer_cast<MyArray<MyString>>(ptr)->get(std::dynamic_pointer_cast<MyInt>(right->run(vars).second)->value));
     }
   } else if (mid == new_variable) {
-    MyType* ptr = getTypeByTokens(tokens, l, r-1);
+    std::shared_ptr<MyType> ptr = getTypeByTokens(tokens, l, r-1);
     vars[tokens[r].type].emplace_back(new Variable(tokens, link, tokens[r].type, ptr));
     return {false, ptr};
   }
@@ -160,11 +160,6 @@ std::pair<bool, MyType*> Expression::run(vector<std::vector<Node*>>& vars) {
   }
 }
 
-std::pair<bool, MyType*> Expression::add(vector<std::vector<Node*>>& vars) {
+std::pair<bool, std::shared_ptr<MyType>> Expression::add(vector<vector<std::shared_ptr<Node>>>& vars) {
   return run(vars);
-}
-
-Expression::~Expression() {
-  delete left;
-  delete right;
 }

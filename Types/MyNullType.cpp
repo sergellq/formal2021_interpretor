@@ -3,87 +3,87 @@
 
 MyNullType::MyNullType(): MyType(MyType::null_id, -1) {}
 
-MyType* MyNullType::operator=(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator=(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator =");
 }
 
-MyType* MyNullType::operator+=(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator+=(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator +=");
 }
 
-MyType* MyNullType::operator-=(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator-=(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator -=");
 }
 
-MyType* MyNullType::operator*=(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator*=(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator *=");
 }
 
-MyType* MyNullType::operator/=(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator/=(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator /=");
 }
 
-MyType* MyNullType::operator%=(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator%=(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator %=");
 }
 
-MyType* MyNullType::operator|(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator|(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator |");
 }
 
-MyType* MyNullType::operator&(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator&(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator &");
 }
 
-MyInt* MyNullType::operator==(MyType* other) {
+std::shared_ptr<MyInt> MyNullType::operator==(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator ==");
 }
 
-MyInt* MyNullType::operator!=(MyType* other) {
+std::shared_ptr<MyInt> MyNullType::operator!=(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator !=");
 }
 
-MyInt* MyNullType::operator<(MyType* other) {
+std::shared_ptr<MyInt> MyNullType::operator<(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator <");
 }
 
-MyInt* MyNullType::operator>(MyType* other) {
+std::shared_ptr<MyInt> MyNullType::operator>(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator >");
 }
 
-MyInt* MyNullType::operator<=(MyType* other) {
+std::shared_ptr<MyInt> MyNullType::operator<=(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator <=");
 }
 
-MyInt* MyNullType::operator>=(MyType* other) {
+std::shared_ptr<MyInt> MyNullType::operator>=(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator >=");
 }
 
-MyType* MyNullType::operator+(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator+(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator +");
 }
 
-MyType* MyNullType::operator-(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator-(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator -");
 }
 
-MyType* MyNullType::operator*(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator*(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator *");
 }
 
-MyType* MyNullType::operator/(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator/(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator /");
 }
 
-MyType* MyNullType::operator%(MyType* other) {
+std::shared_ptr<MyType> MyNullType::operator%(std::shared_ptr<MyType> other) {
   throw std::logic_error("NullType has no operator %");
 }
 
-MyType* MyNullType::operator!() {
+std::shared_ptr<MyType> MyNullType::operator!() {
   throw std::logic_error("NullType has no operator !");
 }
 
-MyType* MyNullType::operator-() {
+std::shared_ptr<MyType> MyNullType::operator-() {
   throw std::logic_error("NullType has no operator -");
 }
 
